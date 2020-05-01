@@ -2,7 +2,7 @@
   "name": "quote",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://Rajatgit15.github.io/currency",
+  "homepage": "https://Rajatgit15.github.io/currency_rate",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
