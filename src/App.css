@@ -1,74 +1,53 @@
-@import url('https://fonts.googleapis.com/css?family=Josefin+Sans|K2D');
+body{
+    margin:0;
+    display: flex;
+    justify-content:center ;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    background-image: url('q.jpg');
+   
 
 
-body {
-  background: linear-gradient(90deg, lightgreen, lightblue);
-  font-family: 'K2D', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 100px);
-  overflow-y: hidden;
 }
 
-.title {
-  text-align: center;
-  font-weight: 500;
+h1{
+    margin:0;
+    margin-bottom: .5rem;
+    color:rgb(230, 235, 236);
+    font-size: 40px;
+    font-style: italic;
 }
 
-#quote-box {
-  width: 400px;
-  margin: 0 auto;
-  padding: 1px 15px;
-  font-weight: 550;
-  font-size: 22px;
-  background: linear-gradient(35deg, #CCFFFF, #FFCCCC);
-  text-align: center;
-  border-radius: 20px;
-  box-shadow: 0px 0px 2px 1px gray;
+.ut{
+    border-radius: .2rem;
+    width:4em;
+    height: 2.5em;
 }
 
-#text p {
-  margin-block-start: 0.5em;
-  margin-block-end: 0.5em;
+.input{
+border: 1px solid #333;
+width:7em;
+height:25px;
+border-radius: .3em;
+padding: .25rem;
+font-weight:bolder;
+
+
+
 }
 
-#author h5 {
-  margin-block-start: 1em;
-  margin-block-end: 1em;
+select{
+    margin-left: .5rem;
+}
+.equals{
+    font-weight: bold;
+    font-size: 2rem;
+    color:#fff
 }
 
-#buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
-.twitter-icon {
-  color: #1DA1F2
-}
-
-.button {
-  font-family: 'K2D', sans-serif;
-  font-weight: 500;
-  font-size: 1rem;
-  padding: 5px;
-  border-radius: 50em;
-  box-shadow: 0px 0px 3px .5px rgb(82, 81, 81);
-  border: 0;
-  margin-bottom: 10px;
-}
-
-.button:focus {
-  outline: none;
-  border: none;
-  color: black;
-}
-
-@media only screen and (max-width: 450px) {
-  .title {
-    font-size: 22px;
-  }
-  #quote-box {
-    width: 270px;
-  }
+.foot{
+    color:#fff;
+    
+    
 }

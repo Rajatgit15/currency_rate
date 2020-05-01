@@ -1,64 +1,78 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import axios from 'axios';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTwitter } from "@fortawesome/free-brands-svg-icons"
+import Row from './Row'
 
 
+  const API =  'https://api.exchangeratesapi.io/latest'
+
+function App(){
 
 
-class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      quote: "",
-      author: ""
+  const[currencyOption, setCurencyOption] = useState([])
+  const[fromCurrency, setFromCurrency]= useState()
+  const[toCurrency, setToCurrency]= useState()
+  const [exchangeRates, setExchangeRates]= useState()
+  const [amount, setAmount]= useState(1)
+  const[amountInFromCurrency, setAmountInFromCurrency]= useState(true)
+
+  let toAmount, fromAmount
+  if(amountInFromCurrency){
+    fromAmount= amount
+    toAmount= amount * exchangeRates
+  } else{
+    toAmount = amount
+    fromAmount = amount / exchangeRates
+  }
+
+  useEffect(()=>{
+    fetch(API)
+    .then(res=> res.json())
+    .then(data=> {
+      const firstcurrency = Object.keys(data.rates)[0]
+      setCurencyOption([data.base, ...Object.keys(data.rates)])
+      setFromCurrency(data.base)
+      setToCurrency(firstcurrency)
+      setExchangeRates(data.rates[firstcurrency])
+    })
+  },[])
+  
+  useEffect(()=>{
+    if(fromCurrency != null && toCurrency!=null){
+      fetch(`${API}?base=${fromCurrency}&symbols=${toCurrency}`)
+      .then(res=>res.json())
+      .then(data=> setExchangeRates(data.rates[toCurrency]))
     }
+  },[fromCurrency, toCurrency])
+
+   function handleFromAmountChange(e){
+    setAmount(e.target.value)
+    setAmountInFromCurrency(true)
   }
 
-  componentDidMount = () => {
-    this.getQuote()
+  function handleToAmountChange (e){
+    setAmount(e.target.value)
+    setAmountInFromCurrency(false)
   }
 
-  getQuote = () => {
-    let url = 'https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json'
-    axios.get(url)
-      .then(res => {
-        let data = res.data.quotes
-        let quoteNum = Math.floor(Math.random() * data.length)
-        let randomQuote = data[quoteNum]
 
-        this.setState({
-          quote: randomQuote['quote'],
-          author: randomQuote['author']
-        })
-      })
-  }
-  getNewQuote = () => {
-    this.getQuote()
-  }
-
-  render() {
-    const { author, quote } = this.state
-    return (
-      <div id='wrapper'>
-        <h1 className='title'>Random Quote App</h1>
-
-        <div id='quote-box'>
-          <div id='text'><p>{quote}</p></div>
-          <div id='author'><h5>{author}</h5></div>
-          
-          <div id='buttons'>
-            <a id='tweet-quote' href={`https://twitter.com/intent/tweet?text=${quote} ${author}`} target='_blank' title="Post this quote on twitter!" id='tweet-quote'>
-              <span>
-                <FontAwesomeIcon className="fab fa-twitter twitter-icon" icon={faTwitter} />
-              </span>
-            </a>
-            <button id='new-quote' className='button' onClick={this.getNewQuote}>New Quote</button>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  return(
+    <>
+    <h1>CURRENCY CONVERTOR</h1>
+    <Row currencyOption={currencyOption}
+    selectedCurrency = {fromCurrency}
+    onChangeCurrency= {e=> setFromCurrency(e.target.value)}
+    amount= {fromAmount}
+    onChangeAmount ={handleFromAmountChange}
+    />
+    <div className='equals'>=</div>
+    <Row currencyOption={currencyOption}
+    selectedCurrency = {toCurrency}
+    onChangeCurrency= {e=> setToCurrency(e.target.value)}
+    amount= {toAmount}
+    onChangeAmount ={handleToAmountChange}/>
+    </>
+  )
 }
+
+
 export default App
